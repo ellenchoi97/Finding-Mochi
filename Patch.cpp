@@ -108,16 +108,18 @@ void Patch::setup(){
     glBufferData(GL_ARRAY_BUFFER, cp_v.size()*sizeof(glm::vec3), &cp_v[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-    
+
+      //normals
+    glBindBuffer(GL_ARRAY_BUFFER, VBON);
+    glBufferData(GL_ARRAY_BUFFER, cp_n.size() * sizeof(glm::vec3), &cp_n[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);  
+
     //indices
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, cp_i.size() *sizeof(glm::vec3), &cp_i[0], GL_STATIC_DRAW);
     
-    //normals
-    glBindBuffer(GL_ARRAY_BUFFER, VBON);
-    glBufferData(GL_ARRAY_BUFFER, cp_n.size() * sizeof(glm::vec3), &cp_n[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -227,7 +229,7 @@ void Patch::draw(GLuint shaderProgram)
     glm::mat4 modelview = Window::V * this->toWorld;
     GLuint uProjection = glGetUniformLocation(shaderProgram, "projection");
     GLuint uModelview = glGetUniformLocation(shaderProgram, "modelview");
-    glUniformMatrix4fv(uProjection, 1, GL_FALSE, &Window::P[0][0]);
+	glUniformMatrix4fv(uProjection, 1, GL_FALSE, &Window::P[0][0]);
     glUniformMatrix4fv(uModelview, 1, GL_FALSE, &modelview[0][0]);
 
 
@@ -313,7 +315,7 @@ glm::vec3 Patch::calcNormal(float u, float v) {
 
 void Patch::scale(float s){
     glm::vec3 scaled = glm::vec3(s,s,s);
-    glm::mat4 scaling = glm::scale(glm::mat4(), scaled);
+    glm::mat4 scaling = glm::scale(glm::mat4(1.0f), scaled);
     this->toWorld = scaling * this->toWorld;
 }
 
