@@ -238,7 +238,7 @@ void Window::initialize_objects()
     
     
     /*** initialize toggle bools ***/
-    isBaymax = true;
+    isBaymax = false;
     isMochi = false;
     isTerrain = false;
     isOcean = false;
@@ -586,18 +586,6 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
                 }
             }
         }
-//        /*** ROTATE ***/
-//        else if (key == GLFW_KEY_T){
-////            if (isTerrain){  terrain->rotate();  }
-//            if (isBaymax){  terrain->rotate();  }
-//        }
-        /*** PRINT CENTERS, can delete after ***/
-        else if (key == GLFW_KEY_P){
-//            glm::vec3 t = terrain->getCenter();
-            glm::vec3 o = ocean->getCenter();
-//            printf("terrain (%f,%f,%f)\n", t.x, t.y, t.z);
-            printf("ocean (%f,%f,%f)\n", o.x, o.y, o.z);
-        }
         /*** TRANSLATIONS ***/
         else if (key == GLFW_KEY_LEFT){ //move -x
             if (isOcean){   ocean->translate(-1.0f, 0.0f, 0.0f);  }
@@ -625,8 +613,8 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
                 if (isObject){ bunny->translate(0.0f, 0.0f, -1.0f);  }
             }else{ //move +y
                 if (isOcean) {  ocean->translate(0.0f, 1.0f, 0.0f);  }
-//                if (isBaymax){  baymax->translate(0.0f, 0.5f, 0.0f); }
-//                if (isMochi) {  mochi->translate(0.0f, 0.5f, 0.0f);  }
+                if (isBaymax){  baymax->translate(0.0f, 0.5f, 0.0f); }
+                if (isMochi) {  mochi->translate(0.0f, 0.5f, 0.0f);  }
                 if (isCamera){  translateCam(0.0f, 1.0f, 0.0f); }
 //                if (isTerrain){ terrain->translate(0.0f, 1.0f, 0.0f);  }
                 if (isObject){ bunny->translate(0.0f, 1.0f, 0.0f);  }
@@ -642,8 +630,8 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
                 if (isObject){ bunny->translate(0.0f, 0.0f, 1.0f);  }
             }else{ //y
                 if (isOcean) {  ocean->translate(0.0f, -1.0f, 0.0f);  }
-//                if (isBaymax){  baymax->translate(0.0f, -0.5f, 0.0f); }
-//                if (isMochi) {  mochi->translate(0.0f, -0.5f, 0.0f);  }
+                if (isBaymax){  baymax->translate(0.0f, -0.5f, 0.0f); }
+                if (isMochi) {  mochi->translate(0.0f, -0.5f, 0.0f);  }
                 if (isCamera){  translateCam(0.0f, -1.0f, 0.0f); }
 //                if (isTerrain){ terrain->translate(0.0f, -1.0f, 0.0f);  }
                 if (isObject){ bunny->translate(0.0f, -1.0f, 0.0f);  }
