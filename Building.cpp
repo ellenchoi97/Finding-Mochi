@@ -17,8 +17,6 @@ Building::Building(GLint shaderProgram)
 	base_width = 10.0f * 0.2f;
 	base_length = 10.0f * 0.2f;
 
-	num_rect = rand() % 5;
-
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &VBO2);
@@ -30,6 +28,10 @@ Building::~Building()
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &VBO2);
+}
+
+unsigned int Building::getSeed() {
+	return seed;
 }
 
 void Building::drawRect(float length, float width, float height) {
@@ -130,7 +132,7 @@ void Building::drawVersion1(glm::mat4 C) {
 	glUniform1i(coloring, 1);
 
 	//The size of the rectangle in the center (length and height are same)
-	float rect_size = 4.0f * 0.2;
+	float rect_size = 4.0f * 0.2f;
 
 	//The maximum height of the buildings
 	int max_height = 3;

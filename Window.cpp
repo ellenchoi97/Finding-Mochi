@@ -518,6 +518,7 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
         }else if (key == GLFW_KEY_6){ //CITY
             isCity = !isCity;
         }else if (key == GLFW_KEY_7){ //BUILDING
+			std::cout << isBuilding << std::endl;
             isBuilding = !isBuilding;
         }else if (key == GLFW_KEY_8){ //PLANT
             isPlant = !isPlant;
@@ -568,6 +569,7 @@ void Window::key_callback(GLFWwindow* window, int key, int scancode, int action,
             if (isTerrain){ terrain->update();  }
             if (isCity) { city->update(); }
             if (isBaymax){  baymax->rotate();  }
+			if (isBuilding) { city->updateBuildings(); }
             if (isMochi) {
                 mochi->reset();
                 mochi->scale(1/(scale*4));

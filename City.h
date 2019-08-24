@@ -17,6 +17,8 @@ private:
 	int num_blocks = 3;
 	bool structure[3][3];
 
+	int building_types[28];
+
 	//Buildings are 10x10, roads are 3 units wide
 	float building_size = 10.0f * 0.2f;
 	float street_size = 1.5f * 0.2f;
@@ -51,10 +53,12 @@ public:
 	~City();
 
 	void setStructure();
+	void setBuildings();
 
 	void draw(glm::mat4 C);
-	void drawBlock(glm::mat4 C, bool park);
+	void drawBlock(glm::mat4 C, bool park, int index);
 	void update();
+	void updateBuildings();
 
 	GLuint VBO, VAO;
 

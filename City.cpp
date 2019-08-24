@@ -77,13 +77,24 @@ void City::setStructure() {
 			structure[x_park][y_park + 1] = true;
 		}
 	}
+
+	setBuildings();
 }
+
+void City::setBuildings() {
+	for (int i = 0; i < 28; i++) {
+		building_types[i] = (rand() % 3) + 1;
+	}
+}
+
 
 void City::draw(glm::mat4 C) {
 	//Set the random number generator with the seed
-	std::srand(seed);
+	std::srand(building->getSeed());
     
 	
+	int index = 0;
+
 	//Go through city structure
 	for (int i = 0; i < num_blocks; i++) {
 		for (int j = 0; j < num_blocks; j++) {
@@ -107,20 +118,21 @@ void City::draw(glm::mat4 C) {
 			if (structure[i][j] == true) {
 				//Set the color of the park
 				glUniform1i(color, 1);				
-                drawBlock(glm::mat4(1.0f), true);
+                drawBlock(glm::mat4(1.0f), true, -1);
 			}
 
 			//Else draw a block
 			else{
 				//Set coloring of the streets
 				glUniform1i(color, 0);
-				drawBlock(posMatrix, false);
+				drawBlock(posMatrix, false, index);
+				index = index + 4;
 			}
 		}
 	}
 }
 
-void City::drawBlock(glm::mat4 C, bool park) {
+void City::drawBlock(glm::mat4 C, bool park, int index) {
 
 	//Draw the block representing streets
 	glBindVertexArray(VAO);
@@ -135,7 +147,6 @@ void City::drawBlock(glm::mat4 C, bool park) {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-
 	//Draw the Buildings
 	if (park == false) {
 		int cylinder = 0;
@@ -143,16 +154,14 @@ void City::drawBlock(glm::mat4 C, bool park) {
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 2; j++) {
 
-				int building_type = (rand() % 3) + 1;
-
 				float x_translate = (i * building_size) + ((i + 1) * street_size);
 				float z_translate = (j * building_size) + ((j + 1) * street_size);				
 			
-				if (building_type == 1) {
+				if (building_types[index + (2 * i) + j] == 1) {
 					building->drawVersion1(glm::translate(glm::mat4(1.0f), glm::vec3(x_translate, 0.0f, z_translate)) * C);
 				}
 
-				else if (building_type == 2 && cylinder < 1) {
+				else if (building_types[index + (2 * i) + j] == 2 && cylinder < 1) {
 					building->drawVersion2(glm::translate(glm::mat4(1.0f), glm::vec3(x_translate, 0.0f, z_translate)) * C);
 					cylinder++;
 				}
@@ -169,4 +178,8 @@ void City::drawBlock(glm::mat4 C, bool park) {
 void City::update() {
 	//Set the city's structure with new random locations
 	setStructure();
+}
+
+void City::updateBuildings() {
+	building->update();
 }

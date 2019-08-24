@@ -15,9 +15,6 @@ private:
 	//The width and length of the base of the building
 	float base_width;
 	float base_length;
-	
-	//Number of rectangles used to build version 1
-	int num_rect;
 
 	//The seed for random number generator
 	unsigned int seed;
@@ -27,6 +24,8 @@ private:
 public:
 	Building(GLint shaderProgram);
 	~Building();
+
+	unsigned int getSeed();
 
 	void drawRect(float length, float width, float height);
 
